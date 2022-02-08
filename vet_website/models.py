@@ -14,6 +14,8 @@ class Pet(models.Model):
 
 class Owner(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    firstname = models.CharField(max_length=30, null=True)
+    lastname = models.CharField(max_length=30, null=True)
     phone = models.CharField(max_length=100)
     address = models.TextField()
     def __str__(self):
