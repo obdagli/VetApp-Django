@@ -10,24 +10,16 @@
             <a class="nav-link active" aria-current="page" href="{% url 'Home' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="{% url 'CreatePet' %}">Create Pet</a>
           </li>          
           <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
+            <a class="nav-link">Disabled</a>
           </li>
         </ul>
-        <form class="d-flex pt-2 me-auto">
+        <form class="d-flex pt-2">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-        <li>
-          {%if user.is_authenticated%}
-          <span class="text-light me-4">Hello, {{request.user}}</span>      
-          <a class="text-decoration-none text-light" href="{% url 'Logout'%}"><strong>Logout</strong></a>
-          {%else%}
-          <a class="text-decoration-none text-light" href="{% url 'Login'%}"><strong>Login/Register</strong></a>
-          {%endif%}
-        </li>
       </div>
     </div>
   </nav>
