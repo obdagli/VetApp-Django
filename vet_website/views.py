@@ -8,9 +8,9 @@ from django.contrib import messages
 @login_required(login_url='register/')
 def Home(request):
     if request.user.is_authenticated:
-        return redirect('')
+        return render(request,'home.html',{})
     else:
-        return redirect('register/')
+        return redirect('Register')
     
 
 def Register(request):
@@ -33,6 +33,16 @@ def Register(request):
 def Login(request):
 
     if request.method == "POST":
-        request.POST.get('username')
-        request.POST.get('password')
-    return render(request, 'Login',{})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username = username, password = password)
+        if user is not None:
+            login(request, user)
+            return redirect('Home')
+        else:
+            messages.info(request, 'Username or Password is incorrect')
+    return render(request, 'login/login.html',{})
+
+def Logout(request):
+    logout(request)
+    return redirect('Login')
