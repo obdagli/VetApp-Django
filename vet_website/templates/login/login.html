@@ -41,9 +41,9 @@
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                           <input type="submit" value="Login" class="btn btn-primary btn-lg">
                         </div>
-                        {% for message in messages %}
-                        <p class="text-center text-muted mt-5 mb-0 text-danger">{{message}}</p>
-                        {%endfor%}
+                        {% if messages %}
+                        <p class="text-center text-muted mt-5 mb-0 text-danger">{{messages}}</p>
+                        {%endif%}
                         <p class="text-center text-muted mt-5 mb-0">Don't u have an account? <a href="{% url 'Register' %}" class="fw-bold text-body"><u class="text-primary">Register here</u></a></p>
                         
                       </form>

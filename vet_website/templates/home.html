@@ -1,5 +1,121 @@
 {% extends 'base.html'%}
 
 {% block content %}
-<h1>Hello world!</h1>
-{% endblock %}
+    <header id="header" class="header pt-5">        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-xl-5">
+                    <div class="text-container">
+                        <h1 class="h1-large">Welcome to the Vet!</h1>
+                        <p class="p-large">We're listing all of our customers and their pets. Also pet types!</p>
+                        {%if user.is_authenticated%}
+                        <p class="section-subtitle">Hello, {{request.user}}!</p>
+                        <a class=" btn-outline-lg" href="{% url 'Logout' %}">Logout</a>              
+                        {%else%}
+                        <a class=" btn-solid-lg" href="{% url 'Register' %}">Kayıt Ol</a>
+                        <a class=" btn-outline-lg" href="{% url 'Login' %}">Giriş Yap</a>
+                        {%endif%}
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-5 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="https://www.rover.com/blog/wp-content/uploads/2017/11/twenty20_b121f53e-e044-405a-b73c-8a50bf08681d-960x540.jpg" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header>
+    <div class="bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-title-container text-center">
+                        <h2 class="section-title mb-2">Pet Types</h2>
+                        <p class="section-subtitle">We have a wide variety of pet types!</p>
+                    </div> <!-- end of section-title-container -->
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+                {% for pet in pets %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">                            
+                            <h5 class="card-title">{{pet.name}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{pet.type}}/{{pet.genus}}</h6>
+                            <p class="card-text">{{pet.description}}</p>                            
+                        </div>
+                        {%if user.is_authenticated%}
+                        <div class="card-footer">
+                            <a href="#" class="btn-solid-lg">Edit</a>
+                            <a href="#" class="btn-outline-lg">Delete</a>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    <div class="bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-title-container text-center">
+                        <h2 class="section-title mb-2">Owners</h2>
+                        <p class="section-subtitle">We have more than 100 customers!</p>
+                    </div> <!-- end of section-title-container -->
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+                {% for owner in owners %}
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">                            
+                            <h5 class="card-title">{{owner.firstname}} {{owner.lastname}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{owner.phone}}</h6>
+                            <p class="card-text">{{owner.address}}</p>
+                                                        
+                        </div>
+                        {%if user.is_authenticated%}
+                        <div class="card-footer">
+                            <a href="#" class="btn-solid-lg">Edit</a>
+                            <a href="#" class="btn-outline-lg">Delete</a>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    <div class="bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-title-container text-center">
+                        <h2 class="section-title mb-2">Owner-Pet Matched</h2>
+                        <p class="section-subtitle">And lorem ipsum dolor sit amet!</p>
+                    </div> <!-- end of section-title-container -->
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+                {% for i in matched %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">                            
+                            <h5 class="card-title">{{i.ownerid.firstname}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{i.petid.name}}</h6>         
+                        </div>
+                        {%if user.is_authenticated%}
+                        <div class="card-footer">
+                            <a href="#" class="btn-solid-lg">Edit</a>
+                            <a href="#" class="btn-outline-lg">Delete</a>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    {%endblock%}

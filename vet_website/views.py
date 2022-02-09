@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterOwnerForm
+from .forms import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 # Create your views here.
-@login_required(login_url='register/')
 def Home(request):
-    if request.user.is_authenticated:
-        return render(request,'home.html',{})
-    else:
-        return redirect('Register')
+    pets = Pet.objects.all()
+    owners = Owner.objects.all()
+    matched = PetOwnerMatching.objects.all()
+    petidsgroupedbyownerid = PetOwnerMatching.objects.values('ownerid').annotate('petid')
+    print(petidsgroupedbyownerid) 
+    context={'pets':pets,'owners':owners,'matched':matched}
+    return render(request,'home.html',context)
     
 
 def Register(request):
@@ -31,7 +33,7 @@ def Register(request):
     return render(request, 'login/register.html',{'registerform':ownerform,'userform':userform})
 
 def Login(request):
-
+    
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -45,4 +47,33 @@ def Login(request):
 
 def Logout(request):
     logout(request)
-    return redirect('Login')
+    return redirect('Home')
+
+def CreatePet(request):
+    form = PetForm()
+    if request.method == "POST":
+        form = PetForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Pet Created Successfully')
+    return render(request, 'pet/createpet.html',{'form':form})
+
+def PetCard(request):
+    pet = Pet.objects.all()
+    return render(request, 'cards/pets.html',{'pets':pet})
+
+def PetOwnerMatch(request):
+    form = PetOwnerMatchForm()
+    if request.method == "POST":
+        form = PetOwnerMatchForm(request.POST)
+        if form.is_valid():
+            ownerid = request.POST["ownerid"]
+            petid = request.POST["petid"]
+            print(ownerid)
+            print(petid)
+            form.save()
+            messages.success(request, 'Pet Matching Successfully')
+
+    owner = Owner.objects.all()
+    pet = Pet.objects.all()
+    return render(request, 'match/match.html',{'owners':owner,'pets':pet,'petform':form})
