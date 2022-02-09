@@ -8,4 +8,5 @@ urlpatterns = [
     path('logout/', views.Logout, name="Logout"),
     path('createpet/', views.CreatePet, name="CreatePet"),
     path('pets/', views.PetCard, name="Pets"),
+    path('match/', views.PetOwnerMatch, name="Match"),
 ]

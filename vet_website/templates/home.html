@@ -10,7 +10,7 @@
                         <p class="p-large">We're listing all of our customers and their pets. Also pet types!</p>
                         {%if user.is_authenticated%}
                         <p class="section-subtitle">Hello, {{request.user}}!</p>
-                        <a class=" btn-outline-lg" href="{% url 'Login' %}">Logout</a>              
+                        <a class=" btn-outline-lg" href="{% url 'Logout' %}">Logout</a>              
                         {%else%}
                         <a class=" btn-solid-lg" href="{% url 'Register' %}">Kayıt Ol</a>
                         <a class=" btn-outline-lg" href="{% url 'Login' %}">Giriş Yap</a>
@@ -75,6 +75,36 @@
                             <h6 class="card-subtitle mb-2 text-muted">{{owner.phone}}</h6>
                             <p class="card-text">{{owner.address}}</p>
                                                         
+                        </div>
+                        {%if user.is_authenticated%}
+                        <div class="card-footer">
+                            <a href="#" class="btn-solid-lg">Edit</a>
+                            <a href="#" class="btn-outline-lg">Delete</a>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    <div class="bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-title-container text-center">
+                        <h2 class="section-title mb-2">Owner-Pet Matched</h2>
+                        <p class="section-subtitle">And lorem ipsum dolor sit amet!</p>
+                    </div> <!-- end of section-title-container -->
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+                {% for i in matched %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">                            
+                            <h5 class="card-title">{{i.ownerid.firstname}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{i.petid.name}}</h6>         
                         </div>
                         {%if user.is_authenticated%}
                         <div class="card-footer">

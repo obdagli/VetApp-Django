@@ -1,1 +1,46 @@
 {%extends '../base.html'%}
+{%block content%}
+<section>
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3">
+            <img src="https://cdn.shopify.com/s/files/1/1161/4590/files/made_for_all_adventurers_1600x.jpg?v=1590414300" class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="Sample photo">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Pet-Owner Match</h3>
+              {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                  {{form.errors}}
+                </div>
+              {% endif %}
+                <form method="POST"  class="px-md-2">
+                {%csrf_token%}
+                {%load widget_tweaks%}
+                <div class="form-outline mb-4">
+                    <select name="ownerid">
+                        {% for owner in owners %}
+                            <option value="{{ owner.id }}">{{ owner.firstname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-outline mb-4">
+                    <select name="petid">
+                        {% for pet in pets %}
+                            <option value="{{ pet.id }}">{{ pet.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>  
+                
+                </div>
+  
+                <input type="submit" value="Save" class="btn btn-primary btn-lg">
+  
+                </form>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {%endblock%}

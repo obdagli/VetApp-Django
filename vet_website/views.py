@@ -8,7 +8,10 @@ from django.contrib import messages
 def Home(request):
     pets = Pet.objects.all()
     owners = Owner.objects.all()
-    context={'pets':pets,'owners':owners}
+    matched = PetOwnerMatching.objects.all()
+    petidsgroupedbyownerid = PetOwnerMatching.objects.values('ownerid').annotate('petid')
+    print(petidsgroupedbyownerid) 
+    context={'pets':pets,'owners':owners,'matched':matched}
     return render(request,'home.html',context)
     
 
@@ -44,7 +47,7 @@ def Login(request):
 
 def Logout(request):
     logout(request)
-    return redirect('Login')
+    return redirect('Home')
 
 def CreatePet(request):
     form = PetForm()
@@ -58,3 +61,19 @@ def CreatePet(request):
 def PetCard(request):
     pet = Pet.objects.all()
     return render(request, 'cards/pets.html',{'pets':pet})
+
+def PetOwnerMatch(request):
+    form = PetOwnerMatchForm()
+    if request.method == "POST":
+        form = PetOwnerMatchForm(request.POST)
+        if form.is_valid():
+            ownerid = request.POST["ownerid"]
+            petid = request.POST["petid"]
+            print(ownerid)
+            print(petid)
+            form.save()
+            messages.success(request, 'Pet Matching Successfully')
+
+    owner = Owner.objects.all()
+    pet = Pet.objects.all()
+    return render(request, 'match/match.html',{'owners':owner,'pets':pet,'petform':form})
