@@ -74,6 +74,27 @@ def CreateOwner(request):
             messages.success(request, 'Owner Created Successfully')
     return render(request, 'create/createowner.html',{'registerform':form})
 
+def UpdateOwner(request, pk):
+    owner = Owner.objects.get(id=pk)
+    form = OwnerForm(instance=owner)
+    if request.method == "POST":
+        form = OwnerForm(request.POST, instance=owner)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Owner Updated Successfully')
+            return redirect('Home')
+    context = {'registerform':form}
+    return render(request, 'create/createowner.html',context)
+
+def DeleteOwner(request, pk):
+    owner = Owner.objects.get(id=pk)
+    if request.method == "POST":
+        owner.delete()
+        messages.success(request, 'Owner Deleted Successfully')
+        return redirect('Home')
+    context = {'item':owner}
+    return render(request, 'delete/delete.html',context)
+
 def PetOwnerMatch(request):
     form = PetOwnerMatchForm()
     if request.method == "POST":
@@ -117,7 +138,7 @@ def UpdatePet(request, pk):
             messages.success(request, 'Pet Updated Successfully')
             return redirect('Home')
     context = {'form':form}
-    return render(request, 'pet/createpet.html',context)
+    return render(request, 'create/createpet.html',context)
 
 def DeletePet(request, pk):
     pet = Pet.objects.get(id=pk)

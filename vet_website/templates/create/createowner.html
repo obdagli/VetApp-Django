@@ -1,4 +1,5 @@
 {% extends '../base.html' %}
+{%block title%}CRUDOwner{%endblock%}
 {%block content%}
     <section style="background-color: #eee;" class="py-5">
         <div class="container">
@@ -15,7 +16,7 @@
                         {{ registerform.errors}}
                       </div>
                       {% endif %}
-                      <form method="POST" action="{% url 'CreateOwner' %}" class="mx-1 mx-md-4">
+                      <form method="POST" action="" class="mx-1 mx-md-4">
                         {% csrf_token %}
                         {% load widget_tweaks %}
                         <div class="d-flex flex-row align-items-center mb-4">

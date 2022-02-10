@@ -1,5 +1,5 @@
 {% extends 'base.html'%}
-
+{%block title%}Home{%endblock%}
 {% block content %}
     <header id="header" class="header pt-5">        
         <div class="container">
@@ -43,13 +43,15 @@
                     <div class="card">
                         <div class="card-body">                            
                             <h5 class="card-title">{{pet.name}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{pet.type}}/{{pet.genus}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{pet.type}}/{{pet.genus}}, Age {{pet.age}}</h6>
                             <p class="card-text">{{pet.description}}</p>                            
                         </div>
                         {%if user.is_authenticated%}
                         <div class="card-footer">
                             <a href="{% url 'UpdatePet' pet.id %}" class="btn-solid-lg">Edit</a>
+                            {%if user.is_staff %}
                             <a href="{% url 'DeletePet' pet.id %}" class="btn-outline-lg">Delete</a>
+                            {%endif%}
                         </div>
                         {%endif%}
                     </div>
@@ -62,15 +64,17 @@
                     <div class="card">
                         <div class="card-body">                            
                             <h5 class="card-title">{{pet.name}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{pet.type}}/{{pet.genus}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{pet.type}}/{{pet.genus}}, Age {{pet.age}}</h6>
                             <p class="card-text">{{pet.description}}</p>                            
                         </div>
                         {%if user.is_authenticated%}
                         <div class="card-footer">
                             <a href="{% url 'UpdatePet' pet.id %}" class="btn-solid-lg">Edit</a>
+                        {%endif%}
+                        {%if user.is_staff %}                        
                             <a href="{% url 'DeletePet' pet.id %}" class="btn-outline-lg">Delete</a>
                         </div>
-                        {%endif%}
+                        {%endif%} 
                     </div>
                 </div>
                 {%endfor%}
@@ -78,7 +82,7 @@
             </div>
         </div>
     </div>
-    {%if owners%}
+    
     <div class="bg-white">
         <div class="container">
             <div class="row">
@@ -96,12 +100,35 @@
                         <div class="card-body">                            
                             <h5 class="card-title">{{owner.firstname}} {{owner.lastname}}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{owner.phone}}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">{{owner.email}}</h6>
+                            <p class="card-text">{{owner.address}}</p>
+                                                        
+                        </div>
+                        {%if user.is_authenticated%}
+                        <div class="card-footer">
+                            <a href="{% url 'UpdateOwner' owner.id %}" class="btn-solid-lg">Edit</a>
+                        {%endif%}
+                        {%if user.is_staff %}
+                            <a href="{% url 'DeleteOwner' owner.id %}" class="btn-outline-lg">Delete</a>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+                {% for owner in searchedowners %}
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">                            
+                            <h5 class="card-title">{{owner.firstname}} {{owner.lastname}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{owner.phone}}</h6>
                             <p class="card-text">{{owner.address}}</p>
                                                         
                         </div>
                         {%if user.is_authenticated%}
                         <div class="card-footer">
                             <a href="#" class="btn-solid-lg">Edit</a>
+                        {%endif%}
+                        {%if user.is_staff %}
                             <a href="#" class="btn-outline-lg">Delete</a>
                         </div>
                         {%endif%}
@@ -111,7 +138,6 @@
             </div>
         </div>
     </div>
-    {%endif%}
     {% if user.is_staff and matched%}
     <div class="bg-gray">
         <div class="container">
