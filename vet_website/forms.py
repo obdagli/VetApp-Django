@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Owner, Pet, PetOwnerMatching
 
-class RegisterOwnerForm(ModelForm):
+class OwnerForm(ModelForm):
     class Meta:
         model = Owner
         fields = ['firstname','lastname','phone','address']

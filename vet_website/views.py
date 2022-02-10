@@ -9,29 +9,35 @@ from django.db.models import Count
 from itertools import chain
 # Create your views here.
 def Home(request):
-    pets = Pet.objects.all()
-    owners = Owner.objects.all()
-    matched = PetOwnerMatching.objects.all()
-    context={'pets':pets,'owners':owners,'matched':matched}
+    if 'searchbar' in request.GET:
+        searchbar = request.GET['searchbar']
+        searchedpets = Pet.objects.filter(name__icontains=searchbar)
+        searchedowners = Owner.objects.filter(firstname__icontains=searchbar)
+        context ={'searchedpets':searchedpets,'searchedowners':searchedowners}
+    else:
+        pets = Pet.objects.all()
+        owners = Owner.objects.all()
+        matched = PetOwnerMatching.objects.all()
+        context={'pets':pets,'owners':owners,'matched':matched}
     return render(request,'home.html',context)
     
 
 def Register(request):
-    ownerform = RegisterOwnerForm()
     userform = UserCreationForm()
     if request.method == "POST":
         userform = UserCreationForm(request.POST)
-        ownerform = RegisterOwnerForm(request.POST)
-        if userform.is_valid() and ownerform.is_valid():
-            user = userform.save()
-            ownerform = ownerform.save(commit=False)
-            ownerform.user = user
-            ownerform.save()
-            username = userform.cleaned_data.get('username')
+        if userform.is_valid():
+            username = userform.cleaned_data.get('username') # obtaining data from fields.
+            email = userform.cleaned_data.get('email')
+            password = userform.cleaned_data.get('password1')
+            user = User.objects.create_user(username = username,email = email,password = password)
+            if 'isstaff' in request.POST:
+                user.is_staff = True
+            user.save()            
             messages.success(request, 'User Created Successfully' + username)
             return redirect('Login') 
         
-    return render(request, 'login/register.html',{'registerform':ownerform,'userform':userform})
+    return render(request, 'login/register.html',{'userform':userform})
 
 def Login(request):
     
@@ -57,7 +63,37 @@ def CreatePet(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Pet Created Successfully')
-    return render(request, 'pet/createpet.html',{'form':form})
+    return render(request, 'create/createpet.html',{'form':form})
+
+def CreateOwner(request):
+    form = OwnerForm()
+    if request.method == "POST":
+        form = OwnerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Owner Created Successfully')
+    return render(request, 'create/createowner.html',{'registerform':form})
+
+def UpdateOwner(request, pk):
+    owner = Owner.objects.get(id=pk)
+    form = OwnerForm(instance=owner)
+    if request.method == "POST":
+        form = OwnerForm(request.POST, instance=owner)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Owner Updated Successfully')
+            return redirect('Home')
+    context = {'registerform':form}
+    return render(request, 'create/createowner.html',context)
+
+def DeleteOwner(request, pk):
+    owner = Owner.objects.get(id=pk)
+    if request.method == "POST":
+        owner.delete()
+        messages.success(request, 'Owner Deleted Successfully')
+        return redirect('Home')
+    context = {'item':owner}
+    return render(request, 'delete/delete.html',context)
 
 def PetOwnerMatch(request):
     form = PetOwnerMatchForm()
@@ -102,7 +138,7 @@ def UpdatePet(request, pk):
             messages.success(request, 'Pet Updated Successfully')
             return redirect('Home')
     context = {'form':form}
-    return render(request, 'pet/createpet.html',context)
+    return render(request, 'create/createpet.html',context)
 
 def DeletePet(request, pk):
     pet = Pet.objects.get(id=pk)
