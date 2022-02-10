@@ -10,7 +10,7 @@ class Pet(models.Model):
     type = models.CharField(max_length=100)
     genus = models.CharField(max_length=100)
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Owner(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -19,11 +19,11 @@ class Owner(models.Model):
     phone = models.CharField(max_length=100)
     address = models.TextField()
     def __str__(self):
-        return self.user
+        return str(self.firstname)
 
 class PetOwnerMatching(models.Model):
     ownerid = models.ForeignKey(Owner, on_delete=models.CASCADE)
     petid = models.ForeignKey(Pet, on_delete=models.CASCADE)
     def __str__(self):
-        return self.id
+        return str(self.id)
     

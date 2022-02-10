@@ -16,26 +16,9 @@
                 <form method="POST"  class="px-md-2">
                 {%csrf_token%}
                 {%load widget_tweaks%}
-                {% if not form.topic or temp <= 1%}
                 <div class="form-outline mb-4">
-                  {{form.as_p}}
+                    {{form}}
                 </div>
-                {%else%}
-                <div class="form-outline mb-4">
-                  <select name="ownerid">
-                      {% for owner in owners %}
-                          <option value="{{ owner.id }}">{{ owner.firstname }}</option>
-                      {% endfor %}
-                  </select>
-                </div>
-                <div class="form-outline mb-4">
-                  <select name="petid">
-                      {% for pet in pets %}
-                          <option value="{{ pet.id }}">{{ pet.name }}</option>
-                      {% endfor %}
-                  </select>
-                </div>  
-                {%endif%}                
                 
                 </div>
   
