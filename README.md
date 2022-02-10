@@ -42,7 +42,7 @@ Updated home page for daily non registered users.
 
 ### Updated Regular User Home Page
 
-Updated home page for daily non registered users.
+Updated home page for regular users.
 ![UpdatedUserHome](/screenshots/RegularHome.png)
 
 # About
