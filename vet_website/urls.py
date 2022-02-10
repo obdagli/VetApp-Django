@@ -7,6 +7,7 @@ urlpatterns = [
     path('login/', views.Login, name="Login"),
     path('logout/', views.Logout, name="Logout"),
     path('createpet/', views.CreatePet, name="CreatePet"),
+    path('createowner/', views.CreateOwner, name="CreateOwner"),
     path('match/', views.PetOwnerMatch, name="Match"),
     path('updatematched/<str:pk>/', views.UpdateMatched, name="UpdateMatched"),
     path('deletematched/<str:pk>/', views.DeleteMatched, name="DeleteMatched"),

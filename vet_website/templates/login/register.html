@@ -10,7 +10,7 @@
   </head>
   <body>
     
-    <section style="background-color: #eee;">
+    <section style="background-color: #eee;" class="p-5">
         <div class="container">
           <div class="row d-flex justify-content-center align-items-center">
             <div class="col-lg-12 col-xl-11">
@@ -58,45 +58,25 @@
                             {{userform.password2|add_class:"form-control"}}
                             <label class="form-label" for="form3Example4cd">Repeat your password</label>
                           </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            {{registerform.firstname|add_class:"form-control"|attr:"type:text"}}
-                            <label class="form-label" for="form3Example1c">{{registerform.firstname.label}}</label>
-                          </div>
-                        </div> 
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            {{registerform.lastname|add_class:"form-control"|attr:"type:text"}}
-                            <label class="form-label" for="form3Example1c">{{registerform.lastname.label}}</label>
-                          </div>
-                        </div> 
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            {{registerform.phone|add_class:"form-control"|attr:"type:tel"}}
-                            <label class="form-label" for="form3Example1c">{{registerform.phone.label}}</label>
-                          </div>
                         </div>  
-                        <div class="d-flex flex-row align-items-center mb-4">
+                        <div class="d-flex flex-row align-items-center">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill">
+                            <input type="radio" name="isstaff" id="isstaff" value="Staff"> Staff
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill">
+                            <input type="radio" name="regular" id="regular" value="regular"> Regular
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
                           <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
                             {{registerform.address|add_class:"form-control"}}
                             <label class="form-label" for="form3Example1c">{{registerform.address.label}}</label>
                           </div>
-                        </div>
-                        <div class="form-check d-flex justify-content-center mb-5">
-                          <input
-                            class="form-check-input me-2"
-                            type="checkbox"
-                            value=""
-                            id="form2Example3c"
-                          />
-                          <label class="form-check-label" for="form2Example3">
-                            I agree all statements in <a href="#!">Terms of service</a>
-                          </label>
                         </div>
       
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
